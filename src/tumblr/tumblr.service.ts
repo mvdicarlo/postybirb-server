@@ -24,7 +24,7 @@ export class TumblrService {
   private readonly CONFIG = {
     KEY: process.env.TUMBLR_KEY,
     SECRET: process.env.TUMBLR_SECRET,
-    uri: {
+    URI: {
       REQUEST_URL: 'https://www.tumblr.com/oauth/request_token',
       AUTHORIZE_URL: 'https://www.tumblr.com/oauth/authorize',
       ACCESS_URL: 'https://www.tumblr.com/oauth/access_token',
@@ -34,12 +34,12 @@ export class TumblrService {
 
   private getOAuth(port?: number) {
     return new OAuth(
-      this.CONFIG.uri.REQUEST_URL,
-      this.CONFIG.uri.ACCESS_URL,
+      this.CONFIG.URI.REQUEST_URL,
+      this.CONFIG.URI.ACCESS_URL,
       this.CONFIG.KEY,
       this.CONFIG.SECRET,
       '1.0A',
-      `http://localhost:${port || 9246}/tumblr`,
+      `http://localhost:${port || 4200}/tumblr`,
       'HMAC-SHA1',
     );
   }
@@ -60,7 +60,7 @@ export class TumblrService {
             data: {
               token,
               secret,
-              url: `${this.CONFIG.uri.AUTHORIZE_URL}?oauth_token=${token}`,
+              url: `${this.CONFIG.URI.AUTHORIZE_URL}?oauth_token=${token}`,
             },
           }),
         );

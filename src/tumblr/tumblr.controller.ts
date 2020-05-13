@@ -20,7 +20,7 @@ export class TumblrController {
   }
 
   @Post('v1/refresh')
-  checkToken(@Body() data: TumblrRefresh) {
+  refresh(@Body() data: TumblrRefresh) {
     return this.service.refreshToken(data);
   }
 
