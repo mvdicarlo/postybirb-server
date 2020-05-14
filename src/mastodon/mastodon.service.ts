@@ -46,7 +46,7 @@ export class MastodonService {
   ): Promise<ApiResponse<{ token: string; username: string }>> {
     const model = await this.findMastodonInstance(data.website);
     if (!model) {
-      throw new ApiResponse({
+      return new ApiResponse({
         error: `Unable to authenticate to an unregistered Mastodon instance ${data.website}`,
       });
     }
@@ -73,7 +73,7 @@ export class MastodonService {
     } catch (err) {
       const errString = `Unable to complete ${data.website} authentication`;
       this.logger.error(err, errString);
-      throw new ApiResponse({ error: errString });
+      return new ApiResponse({ error: errString });
     }
   }
 
