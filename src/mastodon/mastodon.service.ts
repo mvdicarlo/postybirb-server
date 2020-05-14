@@ -1,4 +1,8 @@
-import { Injectable, Logger } from '@nestjs/common';
+import {
+  Injectable,
+  Logger,
+  InternalServerErrorException,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import * as Mastodon from 'mastodon-api';
 import { Model } from 'mongoose';
@@ -31,15 +35,15 @@ export class MastodonService {
       );
     } catch (err) {
       this.logger.error(err, `Mastodon Auth URL Failure ${website}`);
-      throw new ApiResponse({
-        error: `Unable to authorize ${website} at this time`,
-      });
+      throw new InternalServerErrorException(
+        `Unable to authorize ${website} at this time`,
+      );
     }
   }
 
   async completeAuthorization(
     data: MastodonAuthorization,
-  ): Promise<ApiResponse<{ token: string }>> {
+  ): Promise<ApiResponse<{ token: string; username: string }>> {
     const model = await this.findMastodonInstance(data.website);
     if (!model) {
       throw new ApiResponse({
@@ -54,7 +58,18 @@ export class MastodonService {
         data.code,
         data.website,
       );
-      return new ApiResponse({ data: { token } });
+
+      const M = new Mastodon({
+        access_token: token,
+        api_url: `${data.website}/api/v1/`,
+      });
+
+      const info: { data: { username: string } } = await M.get(
+        'accounts/verify_credentials',
+        {},
+      );
+
+      return new ApiResponse({ data: { token, username: info.data.username } });
     } catch (err) {
       const errString = `Unable to complete ${data.website} authentication`;
       this.logger.error(err, errString);
