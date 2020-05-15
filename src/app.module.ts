@@ -1,10 +1,11 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { AppController } from './app.controller';
-import { TumblrModule } from './tumblr/tumblr.module';
-import { DeviantArtModule } from './deviant-art/deviant-art.module';
 import { MongooseModule } from '@nestjs/mongoose';
+import { AppController } from './app.controller';
+import { DeviantArtModule } from './deviant-art/deviant-art.module';
 import { MastodonModule } from './mastodon/mastodon.module';
+import { TumblrModule } from './tumblr/tumblr.module';
+import { TwitterModule } from './twitter/twitter.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { MastodonModule } from './mastodon/mastodon.module';
     TumblrModule,
     DeviantArtModule,
     MastodonModule,
+    TwitterModule,
   ],
   controllers: [AppController],
   providers: [],

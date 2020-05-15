@@ -4,7 +4,7 @@ import {
   InternalServerErrorException,
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import * as Mastodon from 'mastodon-api';
+import Mastodon from 'mastodon-api';
 import { Model } from 'mongoose';
 import { ApiResponse } from 'src/common/models/api-response.model';
 import { MastodonInstance } from './mastodon.schema';
@@ -34,7 +34,7 @@ export class MastodonService {
         'urn:ietf:wg:oauth:2.0:oob',
       );
     } catch (err) {
-      this.logger.error(err, `Mastodon Auth URL Failure ${website}`);
+      this.logger.error(err, '', `Mastodon Auth URL Failure ${website}`);
       throw new InternalServerErrorException(
         `Unable to authorize ${website} at this time`,
       );
@@ -72,7 +72,7 @@ export class MastodonService {
       return new ApiResponse({ data: { token, username: info.data.username } });
     } catch (err) {
       const errString = `Unable to complete ${data.website} authentication`;
-      this.logger.error(err, errString);
+      this.logger.error(err, '', errString);
       return new ApiResponse({ error: errString });
     }
   }
@@ -99,7 +99,7 @@ export class MastodonService {
       });
       return model.save();
     } catch (err) {
-      this.logger.error(err, `Mastodon Registration Failed: ${website}`);
+      this.logger.error(err, '', `Mastodon Registration Failed: ${website}`);
       throw new ApiResponse({
         error: `Unable to register ${website} as a Mastodon instance. Check that the website you provided is correct and has no redirect.`,
       });

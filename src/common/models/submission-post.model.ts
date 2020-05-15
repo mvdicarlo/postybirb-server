@@ -1,6 +1,14 @@
 import { IsDefined } from 'class-validator';
 import { FileUpload } from '../interfaces/file-upload.interface';
 
+export interface RequestFile {
+  value: Buffer;
+  options: {
+    filename: string;
+    contentType: string;
+  };
+}
+
 export class SubmissionPost<T> {
   @IsDefined()
   secret: string;
@@ -25,7 +33,7 @@ export class SubmissionPost<T> {
     this.description = '';
   }
 
-  getFilesforPost() {
+  getFilesforPost(): RequestFile[] {
     return this.files.map(file => ({
       value: Buffer.from(file.data, 'base64'),
       options: {

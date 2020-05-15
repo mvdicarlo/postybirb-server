@@ -1,21 +1,15 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { TumblrOAuthData } from './interfaces/tumblr-oauth-data.interface';
 import { OAuth } from 'oauth';
-import { TumblrAuthorization } from './models/tumblr-authorization.model';
-import {
-  TumblrAuthData,
-  TumblrAccountData,
-} from './interfaces/tumblr-user-data.interface';
-import * as Tumblr from 'tumblr.js';
-import { TumblrRefresh } from './models/tumblr-refresh.model';
+import * as request from 'request';
+import { FileSubmissionType, getSubmissionType } from 'src/common/enums/file-submission-type.enum';
 import { ApiResponse } from 'src/common/models/api-response.model';
 import { SubmissionPost } from 'src/common/models/submission-post.model';
+import * as Tumblr from 'tumblr.js';
+import { TumblrOAuthData } from './interfaces/tumblr-oauth-data.interface';
 import { TumblrPostOptions } from './interfaces/tumblr-post.interface';
-import {
-  FileSubmissionType,
-  getSubmissionType,
-} from 'src/common/enums/file-submission-type.enum';
-import * as request from 'request';
+import { TumblrAccountData, TumblrAuthData } from './interfaces/tumblr-user-data.interface';
+import { TumblrAuthorization } from './models/tumblr-authorization.model';
+import { TumblrRefresh } from './models/tumblr-refresh.model';
 
 @Injectable()
 export class TumblrService {
@@ -46,10 +40,11 @@ export class TumblrService {
 
   startAuthorization(port?: number): Promise<ApiResponse<TumblrOAuthData>> {
     const auth = this.getOAuth(port);
+    auth.authHeader
     return new Promise((resolve, reject) => {
       auth.getOAuthRequestToken((err, token: string, secret: string) => {
         if (err) {
-          this.logger.error(err, 'Start auth failure');
+          this.logger.error(err, '', 'Start auth failure');
           reject(
             new ApiResponse<any>({ error: JSON.stringify(err) }),
           );
@@ -79,7 +74,7 @@ export class TumblrService {
         data.verifier,
         (err, token: string, secret: string) => {
           if (err) {
-            this.logger.error(err, 'Complete Authorization Failure');
+            this.logger.error(err, '', 'Complete Authorization Failure');
             reject(
               new ApiResponse<any>({ error: JSON.stringify(err) }),
             );
@@ -95,7 +90,7 @@ export class TumblrService {
 
           client.userInfo((err: any, data: { user: TumblrAccountData }) => {
             if (err) {
-              this.logger.error(err, 'Issue getting user info');
+              this.logger.error(err, '', 'Issue getting user info');
               reject(
                 new ApiResponse<any>({ error: err }),
               );
@@ -133,7 +128,7 @@ export class TumblrService {
     return new Promise((resolve, reject) => {
       client.userInfo((err, data: { user: TumblrAccountData }) => {
         if (err) {
-          this.logger.error(err, 'Issue getting user info');
+          this.logger.error(err, '', 'Issue getting user info');
           reject(
             new ApiResponse<any>({ error: err }),
           );
@@ -208,8 +203,7 @@ export class TumblrService {
           try {
             json = JSON.parse(body);
           } catch (e) {
-            this.logger.error('Unable to parse body from post');
-            this.logger.error(body);
+            this.logger.error(body, '', 'Unable to parse body from post');
             reject(
               new ApiResponse({ error: 'Unable to determine post success. ' }),
             );
