@@ -1,13 +1,19 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { OAuth } from 'oauth';
 import * as request from 'request';
-import { FileSubmissionType, getSubmissionType } from 'src/common/enums/file-submission-type.enum';
+import {
+  FileSubmissionType,
+  getSubmissionType,
+} from 'src/common/enums/file-submission-type.enum';
 import { ApiResponse } from 'src/common/models/api-response.model';
 import { SubmissionPost } from 'src/common/models/submission-post.model';
 import * as Tumblr from 'tumblr.js';
 import { TumblrOAuthData } from './interfaces/tumblr-oauth-data.interface';
 import { TumblrPostOptions } from './interfaces/tumblr-post.interface';
-import { TumblrAccountData, TumblrAuthData } from './interfaces/tumblr-user-data.interface';
+import {
+  TumblrAccountData,
+  TumblrAuthData,
+} from './interfaces/tumblr-user-data.interface';
 import { TumblrAuthorization } from './models/tumblr-authorization.model';
 import { TumblrRefresh } from './models/tumblr-refresh.model';
 
@@ -40,7 +46,7 @@ export class TumblrService {
 
   startAuthorization(port?: number): Promise<ApiResponse<TumblrOAuthData>> {
     const auth = this.getOAuth(port);
-    auth.authHeader
+    auth.authHeader;
     return new Promise((resolve, reject) => {
       auth.getOAuthRequestToken((err, token: string, secret: string) => {
         if (err) {
@@ -169,7 +175,7 @@ export class TumblrService {
         break;
       case FileSubmissionType.IMAGE:
         form.type = 'photo';
-        form.caption = data.description;
+        form.caption = `${data.title}${data.description}`;
         data.getFilesforPost().forEach((d, i) => {
           form[`data[${i}]`] = d;
         });
