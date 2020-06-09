@@ -81,7 +81,7 @@ export class TwitterService {
     };
 
     let mediaIds = [];
-    if (data.files.length) {
+    if (data.files.length) { // File submissions
       try {
         mediaIds = await Promise.all(
           data.getFilesforPost().map(file => this.uploadMedia(client, file)),
@@ -90,16 +90,18 @@ export class TwitterService {
         this.logger.error(err, err.stack, 'Failed to upload files to Twitter');
         return new ApiResponse({ error: err.map(e => e.message).join('\n') });
       }
-    }
 
-    const ids = _.chunk(mediaIds, 4);
-    ids.forEach((idGroup, i) => {
-      const t = { ...tweet, media_ids: idGroup.join(',') };
-      if (i > 0) {
-        t.status = `(${i + 1} / ${ids.length})`;
-      }
-      tweets.push(t);
-    });
+      const ids = _.chunk(mediaIds, 4);
+      ids.forEach((idGroup, i) => {
+        const t = { ...tweet, media_ids: idGroup.join(',') };
+        if (i > 0) {
+          t.status = `(${i + 1} / ${ids.length})`;
+        }
+        tweets.push(t);
+      });
+    } else {
+      tweets.push(tweet);
+    }
 
     try {
       let url: string;
