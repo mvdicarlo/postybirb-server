@@ -105,9 +105,15 @@ export class TwitterService {
 
     try {
       let url: string;
+      let replyId;
       for (const t of tweets) {
+        if (replyId) {
+          t.in_reply_to_status_id = replyId;
+          t.auto_populate_reply_metadata = true;
+        }
         const post = await client.post('statuses/update', t);
         if (!url) {
+          replyId = post.id_str;
           url = `https://twitter.com/${post.user.screen_name}/status/${post.id_str}`;
         }
       }
