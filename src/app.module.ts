@@ -10,14 +10,11 @@ import { TwitterModule } from './twitter/twitter.module';
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
-    MongooseModule.forRoot(
-      `mongodb://postybirb:${process.env.DB_PASSWORD}@ds247648.mlab.com:47648/postybirb`,
-      {
-        useNewUrlParser: true,
-        reconnectTries: Number.MAX_VALUE,
-        reconnectInterval: 10000,
-      },
-    ),
+    MongooseModule.forRoot(process.env.DB_CONNECTION_STRING, {
+      useNewUrlParser: true,
+      reconnectTries: Number.MAX_VALUE,
+      reconnectInterval: 10000,
+    }),
     TumblrModule,
     DeviantArtModule,
     MastodonModule,
