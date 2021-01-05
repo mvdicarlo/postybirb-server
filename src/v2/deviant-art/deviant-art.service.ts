@@ -1,7 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { DeviantArtAuthorization } from './models/deviant-art-authorization.model';
 import * as request from 'request';
-import { ApiResponse } from 'src/common/models/api-response.model';
+import { ApiResponse } from 'src/v2/common/models/api-response.model';
 import { DeviantArtRefresh } from './models/deviant-art-refresh.model';
 import { DeviantArtAuthData } from './interfaces/deviant-art-auth-data.interface';
 

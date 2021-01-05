@@ -2,10 +2,8 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AppController } from './app.controller';
-import { DeviantArtModule } from './deviant-art/deviant-art.module';
-import { MastodonModule } from './mastodon/mastodon.module';
-import { TumblrModule } from './tumblr/tumblr.module';
-import { TwitterModule } from './twitter/twitter.module';
+import { V1AppModule } from './v1/app.module';
+import { V2AppModule } from './v2/app.module';
 
 @Module({
   imports: [
@@ -15,12 +13,9 @@ import { TwitterModule } from './twitter/twitter.module';
       reconnectTries: Number.MAX_VALUE,
       reconnectInterval: 10000,
     }),
-    TumblrModule,
-    DeviantArtModule,
-    MastodonModule,
-    TwitterModule,
+    V1AppModule,
+    V2AppModule,
   ],
   controllers: [AppController],
-  providers: [],
 })
 export class AppModule {}

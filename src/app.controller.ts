@@ -6,4 +6,5 @@ export class AppController {
   getHello(): string {
     return 'online';
   }
+
 }
