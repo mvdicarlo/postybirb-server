@@ -1,7 +1,7 @@
 import { Injectable, HttpException, Logger } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import * as Mastodon from 'mastodon-api';
+import Mastodon from 'mastodon-api';
 import { MastodonInstance } from 'src/v2/mastodon/mastodon.schema';
 
 @Injectable()
@@ -44,7 +44,7 @@ export class MastodonService {
   public async generateAuthRedirect(website: string): Promise<string> {
     const model: MastodonInstance = await this.mastodonModel.findOne({
       website,
-    });
+    }).exec();
     if (model) {
       try {
         const authURL = await Mastodon.getAuthorizationUrl(
@@ -56,6 +56,7 @@ export class MastodonService {
         );
         return authURL;
       } catch (err) {
+        console.log(err)
         this.logger.error(err);
         throw new HttpException(
           `Unable to authorize ${website} at this time`,
