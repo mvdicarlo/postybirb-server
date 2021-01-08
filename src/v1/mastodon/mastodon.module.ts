@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 import { MastodonController } from './mastodon.controller';
-import { MastodonService } from './mastodon.service';
 import { MongooseModule } from '@nestjs/mongoose';
-import { MastodonSchema } from './mastodon.models';
+import { MastodonInstanceSchema } from 'src/v2/mastodon/mastodon.schema';
+import { MastodonService } from './mastodon.service';
 
 @Module({
   controllers: [MastodonController],
@@ -11,7 +11,7 @@ import { MastodonSchema } from './mastodon.models';
     MongooseModule.forFeature([
       {
         name: 'Mastodon',
-        schema: MastodonSchema
+        schema: MastodonInstanceSchema
       }
     ])
   ]
