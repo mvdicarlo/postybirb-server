@@ -7,7 +7,7 @@ import {
   MediaObject,
 } from './twitter.interface';
 import * as request from 'request';
-import * as partition from 'partition-all';
+import partition from 'partition-all';
 import * as streamify from 'streamifier';
 import { Readable } from 'stream';
 
