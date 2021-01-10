@@ -2,11 +2,11 @@ import { Controller, Post, Get, Body, HttpException } from '@nestjs/common';
 import { TumblrService } from './tumblr.service';
 import { TumblrAuthDto, TumblrPostDto } from './tumblr.interface';
 
-@Controller('v1/tumblr')
+@Controller('tumblr')
 export class TumblrController {
   constructor(private readonly service: TumblrService) {}
 
-  @Post('authorize')
+  @Post('v1/authorize')
   async authorizeClient(@Body() body: TumblrAuthDto): Promise<any> {
     if (!body) {
       throw new HttpException('OAuth code missing', 400);
@@ -19,12 +19,12 @@ export class TumblrController {
     return await this.service.authorizeClient(body);
   }
 
-  @Get('authorize')
+  @Get('v1/authorize')
   async initAuthorization(): Promise<any> {
     return await this.service.createOAuth();
   }
 
-  @Post('refresh')
+  @Post('v1/refresh')
   async refresh(@Body() body: { token: string, secret: string }): Promise<any> {
     if (!body) {
       throw new HttpException('Auth code missing', 400);
@@ -37,7 +37,7 @@ export class TumblrController {
     return await this.service.refresh(body.token, body.secret);
   }
 
-  @Post('post')
+  @Post('v1/post')
   async post(@Body() body: TumblrPostDto): Promise<any> {
     if (!body) {
       throw new HttpException('No post body', 400);
