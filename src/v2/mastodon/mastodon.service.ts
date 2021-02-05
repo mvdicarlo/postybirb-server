@@ -6,7 +6,7 @@ import {
 import { InjectModel } from '@nestjs/mongoose';
 import Mastodon from 'mastodon-api';
 import { Model } from 'mongoose';
-import { ApiResponse } from 'src/common/models/api-response.model';
+import { ApiResponse } from 'src/v2/common/models/api-response.model';
 import { MastodonInstance } from './mastodon.schema';
 import { MastodonAuthorization } from './models/mastodon-authorization.model';
 

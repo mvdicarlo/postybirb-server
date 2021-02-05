@@ -9,17 +9,17 @@ export class DeviantArtController {
 
   constructor(private readonly service: DeviantArtService) {}
 
-  @Get('v1/authorize')
+  @Get('v2/authorize')
   startAuthorization(@Res() res: any) {
     res.redirect(this.service.startAuthorization());
   }
 
-  @Post('v1/authorize')
+  @Post('v2/authorize')
   completeAuthorization(@Body() data: DeviantArtAuthorization) {
     return this.service.completeAuthorization(data);
   }
 
-  @Post('v1/refresh')
+  @Post('v2/refresh')
   refresh(@Body() data: DeviantArtRefresh) {
     return this.service.refreshToken(data);
   }

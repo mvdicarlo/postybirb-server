@@ -4,9 +4,9 @@ import * as request from 'request';
 import {
   FileSubmissionType,
   getSubmissionType,
-} from 'src/common/enums/file-submission-type.enum';
-import { ApiResponse } from 'src/common/models/api-response.model';
-import { SubmissionPost } from 'src/common/models/submission-post.model';
+} from 'src/v2/common/enums/file-submission-type.enum';
+import { ApiResponse } from 'src/v2/common/models/api-response.model';
+import { SubmissionPost } from 'src/v2/common/models/submission-post.model';
 import * as Tumblr from 'tumblr.js';
 import { TumblrOAuthData } from './interfaces/tumblr-oauth-data.interface';
 import { TumblrPostOptions } from './interfaces/tumblr-post.interface';

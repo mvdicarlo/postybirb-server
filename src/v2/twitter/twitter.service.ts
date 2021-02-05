@@ -1,11 +1,11 @@
 import { Injectable, Logger } from '@nestjs/common';
 import * as _ from 'lodash';
 import * as request from 'request';
-import { ApiResponse } from 'src/common/models/api-response.model';
+import { ApiResponse } from 'src/v2/common/models/api-response.model';
 import {
   RequestFile,
   SubmissionPost,
-} from 'src/common/models/submission-post.model';
+} from 'src/v2/common/models/submission-post.model';
 import Twitter, {
   AccessTokenResponse,
   TokenResponse,
