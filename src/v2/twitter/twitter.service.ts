@@ -95,7 +95,7 @@ export class TwitterService {
       const ids = _.chunk(mediaIds, 4);
       ids.forEach((idGroup, i) => {
         const t = { ...tweet, media_ids: idGroup.join(',') };
-        if (ids.length) {
+        if (ids.length > 1) {
           if (i === 0) {
             const numberedStatus = `${i + 1}/${ids.length} ${t.status}`;
             if (numberedStatus.length <= 280) {
