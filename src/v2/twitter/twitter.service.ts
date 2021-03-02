@@ -81,7 +81,8 @@ export class TwitterService {
     };
 
     let mediaIds = [];
-    if (data.files.length) { // File submissions
+    if (data.files.length) {
+      // File submissions
       try {
         mediaIds = await Promise.all(
           data.getFilesforPost().map(file => this.uploadMedia(client, file)),
@@ -94,8 +95,16 @@ export class TwitterService {
       const ids = _.chunk(mediaIds, 4);
       ids.forEach((idGroup, i) => {
         const t = { ...tweet, media_ids: idGroup.join(',') };
-        if (i > 0) {
-          t.status = `(${i + 1} / ${ids.length})`;
+        if (ids.length) {
+          if (i === 0) {
+            const numberedStatus = `${i + 1}/${ids.length} ${t.status}`;
+            if (numberedStatus.length <= 280) {
+              t.status = numberedStatus;
+            }
+          }
+          if (i > 0) {
+            t.status = `${i + 1}/${ids.length}`;
+          }
         }
         tweets.push(t);
       });
