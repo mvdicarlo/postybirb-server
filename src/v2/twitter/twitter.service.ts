@@ -122,9 +122,9 @@ export class TwitterService {
         }
         const post = await client.post('statuses/update', t);
         if (!url) {
-          replyId = post.id_str;
           url = `https://twitter.com/${post.user.screen_name}/status/${post.id_str}`;
         }
+        replyId = post.id_str;
       }
       return new ApiResponse({
         data: {
