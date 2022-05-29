@@ -15,7 +15,7 @@ async function bootstrap() {
 
   app.set('trust proxy', 1);
   const limiter = rateLimit({
-    max: 3000,
+    max: 60,
     windowMs: 5 * 60_000
   });
 
