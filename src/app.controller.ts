@@ -1,10 +1,10 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Req } from '@nestjs/common';
 
 @Controller()
 export class AppController {
   @Get()
-  getHello(): string {
-    return 'online';
+  getHello(@Req() req): string {
+    return 'online' + ': ' + req.ip;
   }
 
 }
