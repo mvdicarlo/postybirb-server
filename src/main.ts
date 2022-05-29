@@ -13,12 +13,12 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe({ transform: true }));
   app.use(compression());
 
-  const limiter = rateLimit({
-    max: 25,
-    windowMs: 60_000 * 60
-  });
+  // const limiter = rateLimit({
+  //   max: 25,
+  //   windowMs: 60_000 * 60
+  // });
 
-  app.use(limiter);
+  // app.use(limiter);
 
   await app.listen(process.env.PORT || 3000);
 }
