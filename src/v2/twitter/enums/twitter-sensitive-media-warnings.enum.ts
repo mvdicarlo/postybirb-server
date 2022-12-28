@@ -18,10 +18,12 @@ export namespace ESensitiveMediaWarnings_Utils {
 		rating: ESubmissionRating
 	): ESensitiveMediaWarnings {
 		switch(rating) {
+			case ESubmissionRating.MATURE:
+				return ESensitiveMediaWarnings.OTHER;
 			case ESubmissionRating.ADULT:
 				return ESensitiveMediaWarnings.ADULT_CONTENT;
 			case ESubmissionRating.EXTREME:
-				return ESensitiveMediaWarnings.OTHER;
+				return ESensitiveMediaWarnings.GRAPHIC_VIOLENCE;
 			default:
 				return;
 		}
