@@ -11,6 +11,8 @@ import Twitter, {
   TokenResponse,
   TwitterOptions,
 } from 'twitter-lite';
+import { ESensitiveMediaWarnings_Utils } from './enums/twitter-sensitive-media-warnings.enum';
+import { ImediaMetadataBody } from './interfaces/twitter-media-metadata-body.interface';
 import { TwitterAuthorization } from './models/twitter-authorization.model';
 
 @Injectable()
@@ -87,6 +89,16 @@ export class TwitterService {
         mediaIds = await Promise.all(
           data.getFilesforPost().map(file => this.uploadMedia(client, file)),
         );
+
+        // Get Twitter warning tag
+        const twitterSMW = ESensitiveMediaWarnings_Utils
+          .fromPBRatingStringValue(data.rating);
+        // And apply it if any
+        if (twitterSMW) await Promise.all(mediaIds.map((mediaIdIter) => {
+          const mediaMdBody: ImediaMetadataBody = { media_id: mediaIdIter };
+          mediaMdBody.sensitive_media_warning = [twitterSMW];
+          return client.post('media/metadata/create', mediaMdBody);
+        }));
       } catch (err) {
         this.logger.error(err, err.stack, 'Failed to upload files to Twitter');
         return new ApiResponse({ error: err.map(e => e.message).join('\n') });
