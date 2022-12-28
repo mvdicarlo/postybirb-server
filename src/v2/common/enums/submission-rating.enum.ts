@@ -8,7 +8,7 @@ export enum ESubmissionRating {
 
 export namespace ESubmissionRating_Utils {
   /**
-   * Get matching ESubmissionRating from string
+   * Get matching ESubmissionRating of given string (PB rating keys)
    * @param srVal String value to convert
    * @returns Matching ESubmissionRating
    * @throws RangeError when srVal is an invalid rating key
