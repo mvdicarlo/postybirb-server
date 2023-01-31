@@ -11,7 +11,10 @@ import Twitter, {
   TokenResponse,
   TwitterOptions,
 } from 'twitter-lite';
-import { ESensitiveMediaWarnings_Utils } from './enums/twitter-sensitive-media-warnings.enum';
+import {
+  ContentBlurType,
+  ESensitiveMediaWarnings_Utils,
+} from './enums/twitter-sensitive-media-warnings.enum';
 import { ImediaMetadataBody } from './interfaces/twitter-media-metadata-body.interface';
 import { TwitterAuthorization } from './models/twitter-authorization.model';
 
@@ -69,7 +72,7 @@ export class TwitterService {
   }
 
   async post(
-    data: SubmissionPost<null>,
+    data: SubmissionPost<{ contentBlur: ContentBlurType }>,
   ): Promise<ApiResponse<{ url: string }>> {
     const client = this.getClient({
       oauth_token: data.token,
@@ -91,14 +94,18 @@ export class TwitterService {
         );
 
         // Get Twitter warning tag
-        const twitterSMW = ESensitiveMediaWarnings_Utils
-          .fromPBRatingStringValue(data.rating);
+        const twitterSMW = ESensitiveMediaWarnings_Utils.fromPBRatingStringValue(
+          data?.options?.contentBlur,
+        );
         // And apply it if any
-        if (twitterSMW) await Promise.all(mediaIds.map((mediaIdIter) => {
-          const mediaMdBody: ImediaMetadataBody = { media_id: mediaIdIter };
-          mediaMdBody.sensitive_media_warning = [twitterSMW];
-          return client.post('media/metadata/create', mediaMdBody);
-        }));
+        if (twitterSMW)
+          await Promise.all(
+            mediaIds.map(mediaIdIter => {
+              const mediaMdBody: ImediaMetadataBody = { media_id: mediaIdIter };
+              mediaMdBody.sensitive_media_warning = [twitterSMW];
+              return client.post('media/metadata/create', mediaMdBody);
+            }),
+          );
       } catch (err) {
         this.logger.error(err, err.stack, 'Failed to upload files to Twitter');
         return new ApiResponse({ error: err.map(e => e.message).join('\n') });
