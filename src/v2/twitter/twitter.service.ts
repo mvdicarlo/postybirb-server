@@ -94,9 +94,9 @@ export class TwitterService {
         );
 
         // Get Twitter warning tag
-        const twitterSMW = ESensitiveMediaWarnings_Utils.fromPBRatingStringValue(
+        const twitterSMW = ESensitiveMediaWarnings_Utils.getSMWFromContentBlur(
           data?.options?.contentBlur,
-        );
+        ) ?? undefined;
         // And apply it if any
         if (twitterSMW)
           await Promise.all(
