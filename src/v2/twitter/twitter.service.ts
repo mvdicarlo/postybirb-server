@@ -85,6 +85,8 @@ export class TwitterService {
       possibly_sensitive: data.rating !== 'general',
     };
 
+    tweet.status = tweet.status.replace(/@\w+/g, '@/');
+
     let mediaIds = [];
     if (data.files.length) {
       // File submissions
