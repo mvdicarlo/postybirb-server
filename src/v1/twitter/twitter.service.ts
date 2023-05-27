@@ -139,7 +139,7 @@ export class TwitterService {
           postData.token,
           postData.secret,
           {
-            status: postData.status,
+            status: (postData?.status || '').replace(/@(\w+)/g, '@/$1'),
           },
           (err, data, r) => {
             if (err) {
@@ -175,7 +175,7 @@ export class TwitterService {
     replyId?: any,
   ): Promise<any> {
     const post: any = {
-      status: postData.status,
+      status: (postData?.status || '').replace(/@(\w+)/g, '@/$1'),
       media_ids: results.slice(0, 4).join(','),
     };
 
