@@ -1,11 +1,7 @@
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsDefined, IsNotEmpty, IsString } from 'class-validator';
 
 export class TumblrRefresh {
-  @IsNotEmpty()
+  @IsDefined()
   @IsString()
-  token: string;
-
-  @IsNotEmpty()
-  @IsString()
-  secret: string;
+  readonly token: string;
 }
