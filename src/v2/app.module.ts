@@ -9,6 +9,7 @@ import { TwitterModule } from './twitter/twitter.module';
     TumblrModule,
     DeviantArtModule,
     MastodonModule,
-    TwitterModule],
+    TwitterModule
+  ],
 })
 export class V2AppModule {}

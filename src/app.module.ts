@@ -4,6 +4,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { AppController } from './app.controller';
 import { V1AppModule } from './v1/app.module';
 import { V2AppModule } from './v2/app.module';
+import { V3AppModule } from './V3/app.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { V2AppModule } from './v2/app.module';
     }),
     V1AppModule,
     V2AppModule,
+    V3AppModule,
   ],
   controllers: [AppController],
 })
