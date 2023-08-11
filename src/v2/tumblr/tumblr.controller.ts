@@ -1,4 +1,4 @@
-import { Controller, Post, Get, Body, Query, Res, BadRequestException } from '@nestjs/common';
+import { Controller, Post, Get, Body, Query } from '@nestjs/common';
 import { TumblrService } from './tumblr.service';
 import { TumblrAuthorization } from './models/tumblr-authorization.model';
 import { TumblrRefresh } from './models/tumblr-refresh.model';
@@ -10,8 +10,8 @@ export class TumblrController {
   constructor(private readonly service: TumblrService) {}
 
   @Get('v2/authorize')
-  startAuthorization(@Res() res: any, @Query('port') port: string) {
-    res.redirect(this.service.startAuthorization(port));
+  startAuthorization(@Query('port') port: number) {
+    return this.service.startAuthorization(port);
   }
 
   @Post('v2/authorize')
@@ -24,8 +24,8 @@ export class TumblrController {
     return this.service.refreshToken(data);
   }
 
-  // @Post('v2/post')
-  // post(@Body() data: SubmissionPost<TumblrPostOptions>) {
-  //   return this.service.post(data);
-  // }
+  @Post('v2/post')
+  post(@Body() data: SubmissionPost<TumblrPostOptions>) {
+    return this.service.post(data);
+  }
 }
