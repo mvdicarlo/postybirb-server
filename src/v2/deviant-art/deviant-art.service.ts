@@ -30,7 +30,7 @@ export class DeviantArtService {
   startAuthorization(): string {
     return `${this.CONFIG.URI.AUTHORIZE_URL}response_type=code&client_id=${
       this.CONFIG.KEY
-    }&redirect_uri=${this.getRedirect()}&scope=basic browse user.manage&state=0`;
+    }&redirect_uri=${this.getRedirect()}&scope=basic browse gallery user.manage&state=0`;
   }
 
   completeAuthorization(
